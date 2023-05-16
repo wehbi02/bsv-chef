@@ -1,0 +1,9 @@
+{
+    "name": "Bread",
+    "diets": [
+        "normal", "vegetarian"
+    ],
+    "ingredients": {
+        "Flour": 1800
+    }
+}

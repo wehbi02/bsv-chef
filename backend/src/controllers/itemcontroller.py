@@ -1,5 +1,4 @@
 from bson.objectid import ObjectId
-from datetime import datetime
 
 from src.controllers.controller import Controller
 from src.util.dao import DAO

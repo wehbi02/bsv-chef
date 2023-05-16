@@ -1,0 +1,9 @@
+{
+    "name": "Salad",
+    "diets": [
+        "normal", "vegetarian", "vegan"
+    ],
+    "ingredients": {
+        "Salad": 1
+    }
+}
