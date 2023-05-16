@@ -17,15 +17,28 @@ item_blueprint = Blueprint('item_blueprint', __name__)
 def create():
     try:
         data = request.form.to_dict(flat=False)
-        """userid = data['userid'][0]
+
         # convert all non-array fields back to simple values
-        for key in ['title', 'description', 'start', 'due', 'userid', 'url']:
-            if key in data and isinstance(data[key], list):
-                data[key] = data[key][0]"""
+        for key in data:
+            if isinstance(data[key], list):
+                data[key] = data[key][0]
+        data['quantity'] = float(data['quantity'])
 
         item = controller.create(data)
         
         return jsonify(item), 200
+    except WriteError as e:
+        abort(400, 'Invalid input data')
+    except Exception as e:
+        print(f'{e.__class__.__name__}: {e}')
+        abort(500, 'Unknown server error')
+
+@item_blueprint.route('/all', methods=['GET'])
+@cross_origin()
+def get_all():
+    try:
+        items = controller.get_all()
+        return jsonify(items), 200
     except WriteError as e:
         abort(400, 'Invalid input data')
     except Exception as e:
