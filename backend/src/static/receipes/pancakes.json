@@ -1,0 +1,15 @@
+{
+    "name": "Pancakes",
+    "diets": [
+        "normal", "vegetarian"
+    ],
+    "ingredients": {
+        "Egg": 3,
+        "Milk": 100,
+        "Yoghurt": 200,
+        "Flour": 150,
+        "Baking Powder": 1,
+        "Salt": 5,
+        "Sugar": 25
+    }
+}

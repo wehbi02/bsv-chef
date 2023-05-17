@@ -13,6 +13,15 @@ receipe_blueprint = Blueprint('receipe_blueprint', __name__)
 @receipe_blueprint.route('/', methods=['GET'])
 @cross_origin()
 def create():
+    """Generate a receipe proposal that makes use of the current pantry items but complies to dietary preferences.
+
+    parameters (need to be added to the body of the request):
+      diet -- dietary restrictions, either "normal", "vegetarian", or "vegan"
+      usage_mode -- usage mode of pantry items, either "optimal" or "random"
+
+    returns: 
+      receipe -- A receipe proposal that complies to the given dietary restrictions and optionally makes best use of the existing pantry items (if usage_mode=="optimal")
+    """
     try:
         data = request.form.to_dict(flat=False)
 

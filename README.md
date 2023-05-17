@@ -1,6 +1,6 @@
-# bsv-chef
+# Tiny Chef
 
-A simple toy system for the course PA1417 Basic System Verification
+A simple toy system for the 2023 exam of the course PA1417 Basic System Verification at BTH.
 
 ## Summary
 
@@ -13,23 +13,36 @@ This repository is structured as follows:
   * *requirements-specification.md*: The requirements of the system, describing *what* needs to be achieved.
   * *system-specification.md*: The system specification, describing *how* the system will be achieved.
 
-## Setup
+## Using the System
 
-To set up the full system, ensure that you have Python, MongoDB, and NodeJS available on you system. 
+### Setup
+
+To set up the system, you have two choices: you can either [run the system locally](#local-setup) or run the dockerized version.
+
+#### Local Setup
+
+Make sure that [Python 3.10](https://www.python.org/downloads/release/python-3100/) and [MongoDB](https://www.mongodb.com/try/download/community) are available on your system. Then, perform the following steps for preparation:
 
 1. Make sure that the data base path *data\db* exists in the root folder of this repository.
-2. Install the requirementens in the *backend* folder by running `python -m pip install -r requirements.txt`
+2. Install the requirementens in the *backend* folder by running `python -m pip install -r requirements.txt`. 
 
-## Starting the system
- 
-You can either get the system running by starting all three components individually
+Finally, get the system running with the following commands (each executed in its own shell):
 
-### Local 
+1. To start the data base, run `mongod --port 27017 --dbpath data\db` from the root folder in a console **with admin rights** (make sure that the direction of the slashes matches your operating system).
+2. To start the the server, run `python -m main` from the *backend* folder.
 
-In three distinct consoles, execute the following commands:
+#### Dockerized Setup
 
-1. In a console **with admin rights** run `mongod --port 27017 --dbpath data\db` from the root folder to start the data base (make sure that the direction of the slashes matches your operating system).
-2. In another console, run `python -m main` from the *backend* folder to start the server
+Make sure that [Docker](https://docs.docker.com/get-docker/) is available on your system. Then, perform the following steps:
 
-### Dockerized
+1. With Docker Desktop running, execute `docker-compose up` from the root folder in a console **with admin rights**.
 
+### Accessing the System
+
+Once the system is running, you can interact with it for example using [Postman](https://www.postman.com/downloads/). Verify that the system is running by executing `GET http://localhost:5000/` which should return a heartbeat in the form of a version string `{ "version" : "v0.5.0" }`.
+
+The database stores **pantry items**, which you can view via `GET http://localhost:5000/items/all`. At the beginning, the database is empty and this REST call should return an empty array `[]`. Populate the database by running `POST http://localhost:5000/populate`, which will take [the dummy data](./backend/src/static/dummy_items/) and adds them to the database. Now, `GET http://localhost:5000/items/all` should list several items. You can create further items via `POST http://localhost:5000/items/create`, where the *body must contain the name, quantity, and unit field*.
+
+Finally, you can explore the main functionality of the system by running `GET http://localhost:5000/receipes` (containing the *diet* and *usage_mode* fields in the body as specified in [the method description](./backend/src/blueprints/receipeblueprint.py)), which generates a random receipe. For example, calling the aforementioned request with `diet = normal` and `usage_mode = optimal` should - if the populate function had been run - return a receipe for *banana bread*, while changing `diet = vegan` should return a receipe for *whole grain bread*.
+
+You can retrace the database by connecting to it using [MongoDB Compass](https://www.mongodb.com/try/download/compass). Connect on the url `mongodb://localhost:27017/` (if you are using a [local setup](#local-setup)) or `mongodb://root:root@localhost:27017/` (if you are using a [dockerized setup](#dockerized-setup)). In the *tinychef* database, you will find the *item* collection, where all the items are stored.

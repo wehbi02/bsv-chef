@@ -31,7 +31,7 @@ class ReceipeController(Controller):
         """Obtain a list of available items in the pantry.
 
         returns:
-          availebl_items -- list of items available in the pantry mapped to their amount"""
+          available_items -- list of items available in the pantry mapped to their amount"""
 
         items = self.get_all()
 

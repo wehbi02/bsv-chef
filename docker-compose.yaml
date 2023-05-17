@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: tinychef-mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=rootDb
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - "27017:27017"
+    command: mongod --bind_ip_all
+
+  backend:
+    build: ./backend
+    container_name: tinychef-backend
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URL=mongodb://root:root@mongodb:27017
+      - FLASK_BIND_IP=0.0.0.0
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "5000:5000"
+
+networks:
+  tinychef:
+    driver: bridge

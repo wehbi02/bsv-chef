@@ -57,7 +57,7 @@ class DAO:
         print(
             f'Connecting to collection {collection_name} on MongoDB at url {MONGO_URL}')
         client = pymongo.MongoClient(MONGO_URL)
-        database = client.edutask
+        database = client.tinychef
 
         # create the collection if it does not yet exist
         if collection_name not in database.list_collection_names():

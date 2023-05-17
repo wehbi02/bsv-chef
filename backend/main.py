@@ -21,6 +21,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(blueprint=item_blueprint, url_prefix='/items')
 app.register_blueprint(blueprint=receipe_blueprint, url_prefix='/receipes')
 
+from src.util.dao import getDao
+from src.controllers.controller import Controller
+
 @app.route('/')
 @cross_origin()
 def ping():
@@ -35,8 +38,21 @@ def ping():
 @app.route('/populate', methods=['POST'])
 @cross_origin()
 def populate():
+    itemcontroller = Controller(dao=getDao(collection_name="item"))
 
-    return jsonify({"success": True}), 200
+    added_items: list[str] = []
+    for filename in os.listdir('./src/static/dummy_items'):
+        with open(f'./src/static/dummy_items/{filename}') as itemfile:
+            item = json.load(itemfile)
+
+            itemcontroller.create({
+                "name": item['name'],
+                "quantity": float(item['quantity']),
+                "unit": item['unit']
+            })
+            added_items.append(item['name'])
+
+    return jsonify({"added": added_items}), 200
 
 if __name__ == '__main__':
     # print all available REST endpoints
