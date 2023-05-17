@@ -5,7 +5,7 @@ from src.controllers.receipecontroller import ReceipeController
 from src.util.dao import getDao
 controller = ReceipeController(items_dao=getDao(collection_name='item'))
 
-from src.static.diets import Diet
+from src.static.diets import Diet, from_string
 
 # instantiate the flask blueprint
 receipe_blueprint = Blueprint('receipe_blueprint', __name__)
@@ -21,11 +21,14 @@ def create():
             if isinstance(data[key], list):
                 data[key] = data[key][0]
 
-        #item = controller.create(data)
-        
-        receipe = controller.get_receipe(diet=Diet.NORMAL, take_best=True)
+        diet: Diet = from_string(data['diet'])
+        take_best: bool =  (data['usage_mode'] == 'optimal')
 
-        return jsonify(receipe), 200
+        receipe = controller.get_receipe(diet=diet, take_best=take_best)
+
+        if receipe == None:
+            return jsonify({'receipe': 'No receipe found for this configuration'}), 404
+        return jsonify({'receipe': receipe}), 200
     
     except Exception as e:
         print(f'{e.__class__.__name__}: {e}')

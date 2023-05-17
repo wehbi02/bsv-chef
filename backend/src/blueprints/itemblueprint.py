@@ -5,7 +5,6 @@ from pymongo.errors import WriteError
 import json
 
 from src.controllers.controller import Controller
-#from src.controllers.itemcontroller import ItemController
 from src.util.dao import getDao
 controller = Controller(dao=getDao(collection_name='item'))
 
