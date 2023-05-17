@@ -1,19 +1,26 @@
 # Tiny Chef
 
-A simple toy system for the 2023 exam of the course PA1417 Basic System Verification at BTH.
-
-## Summary
+A simple toy system for the 2023 exam of the course PA1417 Basic System Verification at BTH. It currently consists of a backend implemented in Flask and is connected to a MongoDB database. A frontend is anticipated according to the requirements, but not yet implemented.
 
 ## Structure
 
 This repository is structured as follows:
 
-* *documentation*: Markdown-files containing the context, requirements and system specification.
-  * *context-specification.md*: The context of the system, describing *why* the system needs to be achieved.
-  * *requirements-specification.md*: The requirements of the system, describing *what* needs to be achieved.
-  * *system-specification.md*: The system specification, describing *how* the system will be achieved.
+* [backend](./backend/): Directory containing the backend
+  * [src](./backend/src/): Source code of the backend
+  * [test](./backend/test/): Location for all test files
+  * .env: Environment variables
+  * [Dockerfile](./backend/Dockerfile): Definition of a docker image
+  * [main.py](./backend/main.py): Main starting point of the backend, to be started with `python -m main`
+  * [pytest.ini](./backend/pytest.ini): Pytest configuration
+  * [requirements.txt](./backend/requirements.txt): Libraries required by the backend, to be installed via `pip install -r requirements.txt`
+* [documentation](./documentation/): Markdown-files containing the context and requirements specification.
+  * [context-specification.md](./documentation/context-specification.md): The context of the system, describing *why* the system needs to be achieved.
+  * [requirements-specification.md](./documentation/requirements-specification.md): The requirements of the system, describing *what* needs to be achieved.
 
 ## Using the System
+
+While not essential for the PA1417 exam, you can [setup](#setup) and [run](#accessing-the-system) the system to familiarize yourself with its functionality.
 
 ### Setup
 

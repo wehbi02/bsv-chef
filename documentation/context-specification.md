@@ -20,3 +20,7 @@ The following dietary restrictions (for **G2.1**) will be supported by the **tin
 ## Domain Model
 
 The following model puts the domain objects into relation. It explains, what type of objects are relevant to the **tiny-chef** system.
+
+![Domain model of the tiny chef system](./tiny-chef-domain-model.png)
+
+The `get_readiness()` operation represents that for every receipe a *readiness* value can be calculated, which represents to what degree (0-100%) a list of items covers the required ingredients of that receipe. A readiness of 100% means that all required ingredients are already available, 0% means none of them are. Readiness can be used as a metric to compare two receipes in terms of "how easy it would be to realize them given the current pantry items."

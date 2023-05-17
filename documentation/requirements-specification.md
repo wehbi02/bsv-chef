@@ -46,8 +46,8 @@ These use cases contribute to realizing goal G1 of the [context specification](.
 
 These use cases contribute to realizing goal G2 of the [context specification](context-specification.md). In the scope of this requirement are two *item usage modes*:
 
-1. Optimal: Here, the receipe proposal will include *as many existing pantry items* as possible.
-2. Random: Here, the receipe proposal will include *at least one existing pantry item*.
+1. **Optimal**: Here, the receipe proposal will include *as many existing pantry items* as possible.
+2. **Random**: Here, the receipe proposal will include *at least one existing pantry item*.
 
 | R3UC1 | Generating a receipe |
 |---|---|
@@ -55,7 +55,7 @@ These use cases contribute to realizing goal G2 of the [context specification](c
 | Preconditions | At least one item exits in the pantry list |
 | Main Success Scenario | 1. If the user clicks on "Get receipe proposal", a popup window opens where the user can specify dietary restrictions and which *item usage mode* the receipe proposal should use. |
 | | 2. If the user presses "confirm", the system generates a receipe proposal, closes the first popup window, and opens a new popup window with the receipe. |
-| End Condition | A receipe proposal complying to the stated dietary restrictions and *item usage mode* is displayed. |
+| End Condition | A receipe proposal complying to the stated dietary restrictions and *item usage mode* which has a readiness level of at least 10% is displayed. |
 | Extensions | |
 
 | R3UC2 | Obtaining a shopping list |
