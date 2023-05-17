@@ -81,25 +81,55 @@ class ReceipeController(Controller):
         overall_coverage: float = sum(individual_coverages)/len(individual_coverages)
 
         return overall_coverage
-                
-
-    def get_receipe(self, diet: Diet, take_best: bool):
-        available_receipes: list[dict] = self.filter_receipes(self.receipes, diet)
-        available_items = self.available_items()
-
+    
+    def get_coverage_of_receipes(self, receipes: list[dict], available_items: list[dict]) -> dict:
+        """Calculate the coverage of each receipe by the available items.
+        
+        parameters:
+          receipes -- list of receipes in the structure as found in src/static/receipes
+          available_items -- list of available pantry items
+          
+        returns:
+          A dictionary that maps a receipe name to a coverage value between 0 and 1 as calculated via calculate_coverage"""
         receipe_coverage = {}
-        for receipe in available_receipes:
+
+        for receipe in receipes:
             coverage = self.calculate_coverage(receipe, available_items)
             receipe_coverage[receipe["name"]] = coverage
 
-        filtered_receipes = {k:v for k,v in receipe_coverage.items() if v>0}
+        return receipe_coverage
 
-        sorted_receipes = {k: v for k, v in sorted(filtered_receipes.items(), key=lambda item: item[0])}
+    def get_receipe(self, diet: Diet, take_best: bool) -> dict:
+        """Propose a suitable receipe depending on the diet and the item usage strategy.
+        
+        parameters:
+          diet -- A specification of a diet (available from the Diet enumerator) which the returned receipes must comply to.
+          take_best -- Item usage strategy (True = Optimal, False = Random)
+          
+        returns:
+          receipe -- A receipe in JSON format. The receipe complies to the dietary restrictions. If the usage strategy 'Optimal' has been selected (take_best == True) then the receipe with the highest coverage value as calculated in calculate_coverage will be returned - otherwise a random receipe will be returned."""
 
+        available_receipes: list[dict] = self.filter_receipes(self.receipes, diet)
+        available_items = self.available_items()
+
+        # associate each receipe name with a coverage value
+        receipe_coverage = self.get_coverage_of_receipes(receipes=available_receipes, available_items=available_items)
+
+        # keep only those receipes which are at least partially covered
+        filtered_receipes = {k:v for k,v in receipe_coverage.items() if v >= 0}
+        if len(filtered_receipes) == 0:
+            # no suitable receipes found
+            return None
+
+        # order the receipes in descending order according to the coverage values, i.e., the first receipe in the list is the one with the highest coverage value
+        sorted_receipes = {k: v for k, v in sorted(filtered_receipes.items(), key=lambda item: item[1])}
+
+        # determine which receipe to return according to the item usage mode
         selected_receipe_index = 0
         if not take_best: 
             selected_receipe_index = random.randint(0, len(sorted_receipes.keys())-1)
             
+        # determine the receipe name and retrieve the receipe from the list of receipes to return it
         selected_receipe_name: str = list(sorted_receipes.keys())[selected_receipe_index]
         selected_receipe = [r for r in available_receipes if r['name']==selected_receipe_name][0]
         return selected_receipe
