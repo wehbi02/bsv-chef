@@ -33,14 +33,15 @@ These use cases contribute to realizing goal G1 of the [context specification](.
 | Extensions | 2.b If at least one of the fields is not filled and the user presses "Add", then an error message "Please fill all input fields" will appear in red below the add button. |
 | | 3.b If the item type already existed before, then the given amount will be added to the already existing amount. |
 
-| R2UC3 | Changing pantry items |
+| R2UC2 | Changing pantry items |
 |---|---|
 | Actors | User |
 | Preconditions | At least one item exists in the pantry list |
 | Main Success Scenario | 1. If the user clicks on an existing item, a popup window with editable information about that item appears. |
 | | 2. If the user presses "Save" and has changed the amount of the item, then the amount will be updated in the virtual pantry. |
 | End Condition | The list of items shows the updated amount of the changed item. |
-| Extensions | 2.b If the user presses "Save" and the new amount of the item is 0, then the item will disappear from the list of items. |
+| Extensions | 2.b If the user presses "Save" and the new amount equals the old amount, then no changes will be applied. |
+| | 2.c If the user presses "Save" and the new amount of the item is 0, then the item will disappear from the list of items. |
 
 ### Requirement 3: Obtaining receipes
 
