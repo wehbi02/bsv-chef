@@ -18,7 +18,7 @@ def calculate_readiness(receipe: dict, available_items: dict) -> float:
             individual_readiness = min(1, available_amount/required_amount)
         individual_readiness.append(individual_readiness)
 
-    overall_coverage: float = sum(
+    overall_readiness: float = sum(
         individual_readiness)/len(individual_readiness)
 
-    return overall_coverage
+    return overall_readiness
