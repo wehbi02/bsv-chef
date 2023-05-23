@@ -9,16 +9,16 @@ def calculate_readiness(receipe: dict, available_items: dict) -> float:
         A readiness value, where a value of 1 (=100%) means that all items required for the receipe are available in the pantry, a readiness of 0 means none of the items are available."""
 
     required_ingredients = receipe['ingredients']
-    individual_readiness = []
     for required_ingredient, required_amount in required_ingredients.items():
+        individual_readiness = []
 
-        individual_readiness: float = 0
+        ingredient_readiness: float = 0
         if required_ingredient in list(available_items.keys()):
             available_amount = available_items.get(required_ingredient)
-            individual_readiness = min(1, available_amount/required_amount)
-        individual_readiness.append(individual_readiness)
+            ingredient_readiness = min(1, available_amount/required_amount)
+        individual_readiness.append(ingredient_readiness)
 
-    overall_coverage: float = sum(
+    overall_readiness: float = sum(
         individual_readiness)/len(individual_readiness)
 
-    return overall_coverage
+    return overall_readiness
