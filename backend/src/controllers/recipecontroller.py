@@ -27,7 +27,7 @@ class RecipeController(Controller):
                 recipes.append(recipe)
         return recipes
 
-    def get_available_items(self, minimum_quantity: int = 0) -> dict:
+    def get_available_items(self, minimum_quantity: int = -1) -> dict:
         """Obtain a dictionary of available items in the pantry.
 
         parameters:
