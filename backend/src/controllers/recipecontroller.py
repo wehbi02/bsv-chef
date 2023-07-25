@@ -27,17 +27,22 @@ class RecipeController(Controller):
                 recipes.append(recipe)
         return recipes
 
-    def available_items(self) -> dict:
-        """Obtain a list of available items in the pantry.
+    def get_available_items(self, minimum_quantity: int = 0) -> dict:
+        """Obtain a dictionary of available items in the pantry.
+
+        parameters:
+          minimum_quantity -- the minimum quantity that an item needs to have in order to be included in the returned dictionary
 
         returns:
-          available_items -- list of items available in the pantry mapped to their amount"""
+          available_items: dict -- a dictionary mapping pantry item names to their quantity (only including pantry items which have a quantity of minimum_quantity or higher)
+          None -- in case the self.get_all() method throws an exception"""
 
         items = self.get_all()
 
         available_items = {}
         for item in items:
-            available_items[item["name"]] = item["quantity"]
+            if item["quantity"] > minimum_quantity:
+                available_items[item["name"]] = item["quantity"]
 
         return available_items
 
@@ -93,7 +98,7 @@ class RecipeController(Controller):
         returns:
           recipe -- A recipe in JSON format. The recipe complies to the dietary restrictions. If the usage strategy 'Optimal' has been selected (take_best == True) then the recipe with the highest readiness value as calculated in calculate_readiness will be returned - otherwise a random recipe will be returned."""
 
-        available_items = self.available_items()
+        available_items = self.get_available_items()
 
         # associate each recipe name with a readiness value
         recipe_readiness = self.get_readiness_of_recipes(
