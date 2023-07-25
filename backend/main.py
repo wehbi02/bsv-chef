@@ -7,7 +7,7 @@ from flask_cors import CORS, cross_origin
 
 # import the blueprints which handle the incoming data
 from src.blueprints.itemblueprint import item_blueprint
-from src.blueprints.receipeblueprint import receipe_blueprint
+from src.blueprints.recipeblueprint import recipe_blueprint
 #from src.util.dao import getDao
 
 # create the Flask application
@@ -19,7 +19,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 # register blueprints
 app.register_blueprint(blueprint=item_blueprint, url_prefix='/items')
-app.register_blueprint(blueprint=receipe_blueprint, url_prefix='/receipes')
+app.register_blueprint(blueprint=recipe_blueprint, url_prefix='/recipes')
 
 from src.util.dao import getDao
 from src.controllers.controller import Controller
