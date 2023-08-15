@@ -29,7 +29,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
         
-      - name: Run all tests
+      - name: Run all demo tests
         run: |
-          python -m pytest
+          python -m pytest -m demo
+        
+      - name: Run all staging tests
+        run: |
+          python -m pytest -m staging
+        
+      - name: Run all unit tests
+        run: |
+          python -m pytest -m unit
       

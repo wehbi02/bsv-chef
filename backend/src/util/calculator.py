@@ -15,10 +15,25 @@ def calculate_readiness(recipe: dict, available_items: dict) -> float:
         ingredient_readiness: float = 0
         if required_ingredient in list(available_items.keys()):
             available_amount = available_items.get(required_ingredient)
-            ingredient_readiness = min(1, available_amount/required_amount)
+            ingredient_readiness = calculate_ingredient_readiness(available_amount, required_amount)
         individual_readiness.append(ingredient_readiness)
 
     overall_readiness: float = sum(
         individual_readiness)/len(individual_readiness)
 
     return overall_readiness
+
+def calculate_ingredient_readiness(available_amount, required_amount):
+    """Calculate the readiness of one ingredient
+
+    parameters:
+        available_amount -- amount that is available of this ingredient
+        required amount -- amount that is required of this ingredient for the recipe
+
+    returns:
+        0 -- if the required amount is 0
+        ingredient readiness -- value between 0 (ingredient is unavailable) to 1 (the available amount of the ingredient is as least as high as the required)
+    """
+    if required_amount == 0:
+        return 0
+    return min(1, available_amount/required_amount)

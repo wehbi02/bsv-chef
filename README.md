@@ -53,3 +53,14 @@ The database stores **pantry items**, which you can view via `GET http://localho
 Finally, you can explore the main functionality of the system by running `GET http://localhost:5000/recipes` (containing the *diet* and *usage_mode* fields in the body as specified in [the method description](./backend/src/blueprints/recipeblueprint.py)), which generates a random recipe. For example, calling the aforementioned request with `diet = normal` and `usage_mode = optimal` should - if the populate function had been run - return a recipe for *banana bread*, while changing `diet = vegan` should return a recipe for *whole grain bread*.
 
 You can retrace the database by connecting to it using [MongoDB Compass](https://www.mongodb.com/try/download/compass). Connect on the url `mongodb://localhost:27017/` (if you are using a [local setup](#local-setup)) or `mongodb://root:root@localhost:27017/` (if you are using a [dockerized setup](#dockerized-setup)). In the *tinychef* database, you will find the *item* collection, where all the items are stored.
+
+## Testing the system
+
+To execute Pytest test cases in this repository, make sure to have all dependencies from the [backend/requirements.txt](./backend/requirements.txt) installed. Then, navigate a console to the *backend* folder and execute `python -m pytest -m <marker>`. You find a list of available markers in the [backend/pytest.ini](./backend/pytest.ini) file.
+
+Alternatively, you can make use of the alread set-up [Github workflow](./.github/workflows/pytest.yml), which will execute all test cases with the `staging` and `unit` marker: for this, push your code to your fork of the remote repository and evaluate the Github actions output under your repositories "Action" tab. 
+
+Make sure that
+
+1. your test cases are marked, i.e., they are preceeded by a `@pytest.mark.unit` marker similar to the [demo test case](./backend/test/demo/test_calculate_ingredient_readiness.py), and
+2. you inspect the right step of the Github action, as the action will execute test cases with different markers at different stages.
