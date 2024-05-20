@@ -76,4 +76,4 @@ The following non-functional requirements shall be adhered to:
 
 1. The system shall be easily maintainable.
 2. The system shall be accessible to users with all types of color-blindness.
-3. The system shall be reliable.
+3. The system shall be scalable to any number of concurrent users.
